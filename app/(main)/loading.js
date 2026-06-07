@@ -1,4 +1,4 @@
-export default function HomePage() {
+export default function loading() {
   return (
     <div className="m-4 border rounded-xl border-neutral-800 animate-pulse">
       <div className="p-4 grid grid-cols-[60px_1fr] gap-3">
