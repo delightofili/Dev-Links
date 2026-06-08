@@ -3,12 +3,21 @@
 import { SiDevbox } from "react-icons/si";
 import { FiUser, FiAtSign, FiMail, FiLock } from "react-icons/fi";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { register } from "@/app/action";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export const dynamic = "force-static";
 
 export default function RegisterPage() {
-  const [state, formAction, isPending] = useActionState(null);
+  const [state, formAction, isPending] = useActionState(register, null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  function toogleShowPassword(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPassword(!showPassword);
+  }
 
   return (
     /* Made it wider (max-w-5xl), flattened the height (py-6 px-10), and increased the column gap (gap-16) */
@@ -95,10 +104,17 @@ export default function RegisterPage() {
             <FiLock className="text-neutral-500 text-lg flex-shrink-0" />
             <input
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="bg-transparent text-white w-full focus:outline-none placeholder:text-neutral-500 text-sm"
             />
+            <button onClick={toogleShowPassword}>
+              {showPassword ? (
+                <FaRegEye className="text-green-500 text-lg flex-shrink-0 cursor-pointer" />
+              ) : (
+                <FaRegEyeSlash className="text-green-500 text-lg flex-shrink-0 cursor-pointer" />
+              )}
+            </button>
           </div>
 
           {state?.error && (
@@ -110,7 +126,7 @@ export default function RegisterPage() {
             disabled={isPending}
             className="bg-green-500 text-neutral-950 font-bold py-2.5 px-4 rounded-lg disabled:opacity-50 cursor-pointer hover:bg-green-600 transition-colors text-sm shadow-[0_0_15px_rgba(34,197,94,0.15)] mt-2"
           >
-            {isPending ? "Registering..." : "Authenticate"}
+            {isPending ? "REGISTERING..." : "REGISTER"}
           </button>
         </form>
 

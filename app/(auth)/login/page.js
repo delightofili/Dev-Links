@@ -3,12 +3,22 @@
 import { SiDevbox } from "react-icons/si";
 import { FiMail, FiLock } from "react-icons/fi";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { login } from "@/app/action";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export const dynamic = "force-static";
 
 export default function LoginPage() {
-  const [state, formAction, isPending] = useActionState(null);
+  const [state, formAction, isPending] = useActionState(login, null);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  function toogleShowPassword(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div className="w-full max-w-5xl py-6 px-10 bg-neutral-900 rounded-2xl grid grid-cols-1 md:grid-cols-2 gap-16 items-center border border-green-500/20 shadow-[0_0_40px_rgba(34,197,94,0.05)]">
@@ -75,10 +85,17 @@ export default function LoginPage() {
             <FiLock className="text-neutral-500 text-lg flex-shrink-0" />
             <input
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="bg-transparent text-white w-full focus:outline-none placeholder:text-neutral-500 text-sm"
             />
+            <button onClick={toogleShowPassword}>
+              {showPassword ? (
+                <FaRegEye className="text-green-500 text-lg flex-shrink-0 cursor-pointer" />
+              ) : (
+                <FaRegEyeSlash className="text-green-500 text-lg flex-shrink-0 cursor-pointer" />
+              )}
+            </button>
           </div>
 
           {state?.error && (
