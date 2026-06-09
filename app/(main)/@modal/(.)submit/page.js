@@ -38,8 +38,8 @@ export default function PostModal() {
     }
   };
   return (
-    <Modal>
-      <div className="relative p-5">
+    <Modal className="no-scrollbar">
+      <div className="relative p-5 ">
         <button
           onClick={() => router.back()}
           className="absolute cursor-pointer top-0 right-3 text-2xl text-white/60"
@@ -186,7 +186,6 @@ export default function PostModal() {
                   <p className="text-green-500">{tags.length}/5</p>
                   <p className="text-neutral-400">tags</p>
                 </div>
-                <p className="text-neutral-400">tags</p>
               </div>
             </div>
           </div>

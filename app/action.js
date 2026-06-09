@@ -88,7 +88,7 @@ export async function logout() {
 }
 
 export async function submitLink(prevState, formData) {
-  const user = getCurrentUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     return { error: "you must be logged in to post!" };
@@ -117,10 +117,11 @@ export async function submitLink(prevState, formData) {
 
   createLink({
     userId: user.id,
-    description: result.data.description,
+    title: result.data.title,
     url: result.data.url,
+    description: result.data.description,
+    tags: result.data.tags.join(","),
     category: result.data.category,
-    tags: result.data.tags,
   });
 
   revalidatePath("/home");

@@ -11,7 +11,7 @@ export default function Modal({ children }) {
       onClick={() => router.back()}
     >
       <div
-        className="bg-black border-3 border-green-700 rounded-2xl max-w-xl w-full max-h-[80vh] overflow-y-auto p-2"
+        className="bg-black border-3 border-green-700 rounded-2xl max-w-xl w-full max-h-[80vh] overflow-y-auto p-2  scrollbar-none"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
