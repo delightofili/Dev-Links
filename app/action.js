@@ -2,11 +2,14 @@
 import {
   createSession,
   deleteSession,
+  getCurrentUser,
   hashPassword,
   setSessionCookie,
   verifySession,
 } from "@/lib/auth";
-import { createUser, getUserByEmail } from "@/lib/db";
+import { createLink, createUser, getUserByEmail } from "@/lib/db";
+import { linkSchema } from "@/lib/validations";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function register(prevState, formData) {
@@ -82,4 +85,45 @@ export async function logout() {
   await deleteSession();
 
   redirect("/login");
+}
+
+export async function submitLink(prevState, formData) {
+  const user = getCurrentUser();
+
+  if (!user) {
+    return { error: "you must be logged in to post!" };
+  }
+
+  const rawtags = formData.get("tags");
+  const tagsArray = rawtags
+    ? rawtags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean)
+    : [];
+
+  const result = linkSchema.safeParse({
+    title: formData.get("title"),
+    url: formData.get("url"),
+    description: formData.get("description"),
+    tags: tagsArray,
+    category: formData.get("category"),
+  });
+
+  if (!result.success) {
+    console.log(result.error);
+    return { error: result.error.issues[0].message };
+  }
+
+  createLink({
+    userId: user.id,
+    description: result.data.description,
+    url: result.data.url,
+    category: result.data.category,
+    tags: result.data.tags,
+  });
+
+  revalidatePath("/home");
+
+  return { success: true };
 }

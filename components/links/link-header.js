@@ -9,12 +9,12 @@ export default function LinkHeader() {
   return (
     <div className="sticky top-0 w-full p-2 flex items-center justify-between">
       <form className="">
-        <div className="flex items-center gap-3 bg-neutral-800 px-3 py-2.5 rounded-lg border border-neutral-700/80 focus-within:border-green-500 transition-colors">
-          <Search className="text-neutral-500 text-lg shrink-0" />
+        <div className="flex items-center gap-3 bg-neutral-800 px-3 py-1.5 rounded-lg border border-neutral-700/80  transition-colors">
+          <Search className="text-neutral-500 h-5 w-5 " />
           <input
             type="text"
             placeholder="Search DevLinks..."
-            className="bg-transparent text-white w-full focus:outline-none placeholder:text-neutral-500 text-md"
+            className="bg-transparent text-white w-full focus:outline-none placeholder:text-neutral-500 text-sm"
           />
         </div>
       </form>
