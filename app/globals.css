@@ -14,6 +14,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
