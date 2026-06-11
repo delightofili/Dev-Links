@@ -7,9 +7,9 @@ import {
   setSessionCookie,
   verifySession,
 } from "@/lib/auth";
-import { createLink, createUser, getUserByEmail } from "@/lib/db";
+import { createLink, createUser, getUserByEmail, upvoteLinkDB } from "@/lib/db";
 import { linkSchema } from "@/lib/validations";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function register(prevState, formData) {
@@ -127,4 +127,27 @@ export async function submitLink(prevState, formData) {
   revalidatePath("/home");
 
   return { success: true };
+}
+
+export async function upvoteLink(formData) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { error: "you must be logged in to upvote a link" };
+  }
+  const linkId = formData.get("linkId");
+  const result = upvoteLinkDB(user.id, linkId);
+
+  //creating notification for link owner
+
+  /*  const link = getLinkById(linkId);
+  if(link && link.user_id !== user.id) {
+
+  } */
+
+  console.log("link upvoted!!!!!!!!!!!!!!!!!");
+
+  revalidateTag("links");
+  revalidatePath("/home");
+
+  return result;
 }

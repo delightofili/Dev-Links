@@ -7,7 +7,7 @@ export default function LinkHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 w-full p-2 flex items-center justify-between">
+    <div className="sticky top-0 mb-6 w-full p-2 flex items-center justify-between">
       <form className="">
         <div className="flex items-center gap-3 bg-neutral-800 px-3 py-1.5 rounded-lg border border-neutral-700/80  transition-colors">
           <Search className="text-neutral-500 h-5 w-5 " />
@@ -22,7 +22,7 @@ export default function LinkHeader() {
         <Bell className="text-neutral-500" />
         <Link
           href="/submit"
-          className="border-2 px-2 text-xl border-green-600 rounded-md text-green-600 font-bold cursor-pointer"
+          className="border-2 px-2 text-xl border-green-500 rounded-md text-green-500 font-bold cursor-pointer"
         >
           +
         </Link>
