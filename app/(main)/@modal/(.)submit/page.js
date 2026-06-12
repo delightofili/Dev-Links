@@ -73,6 +73,7 @@ export default function PostModal() {
                 <option value="" disabled hidden>
                   Select a Category
                 </option>
+                <option value="tool">Tool</option>
                 <option value="article">Article</option>
                 <option value="tutorial">Tutorial</option>
                 <option value="job">Job</option>

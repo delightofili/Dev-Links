@@ -19,11 +19,11 @@ export default function SideBar() {
 
   const navItems = [
     { name: "Feed", href: "/", icon: Home },
-    { name: "Tools", href: "/tools", icon: Wrench },
-    { name: "Articles", href: "/articles", icon: FileText },
-    { name: "Tutorials", href: "/tutorials", icon: GraduationCap },
-    { name: "Jobs", href: "/jobs", icon: Briefcase },
-    { name: "Discussions", href: "/discussions", icon: MessageSquare },
+    { name: "Tools", href: "/category/tool", icon: Wrench },
+    { name: "Articles", href: "/category/article", icon: FileText },
+    { name: "Tutorials", href: "/category/tutorial", icon: GraduationCap },
+    { name: "Jobs", href: "/category/job", icon: Briefcase },
+    { name: "Discussions", href: "/category/discussions", icon: MessageSquare },
     { name: "Bookmarks", href: "/bookmarks", icon: Bookmark },
   ];
 
@@ -55,7 +55,7 @@ export default function SideBar() {
                   }`}
               >
                 {isActive && (
-                  <span className="absolute left-0 top-1/4 h-1/2 w-[3px] bg-green-500 rounded-r-md" />
+                  <span className="absolute left-0 top-1/4 h-1/2 w-0.75 bg-green-500 rounded-r-md" />
                 )}
 
                 <item.icon
