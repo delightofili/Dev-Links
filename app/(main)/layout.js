@@ -1,15 +1,17 @@
 // components/layouts/MainLayout.jsx
 import LinkHeader from "@/components/links/link-header";
 import SideBar from "@/components/sidebar/side-bar";
+import { getCurrentUser } from "@/lib/auth";
 
-export default function MainLayout({ children, modal }) {
+export const dynamic = "force-dynamic";
+
+export default async function MainLayout({ children, modal }) {
+  const user = await getCurrentUser();
   return (
-    // Pure black background for true developer dark mode
     <div className="min-h-screen bg-black text-neutral-200 font-sans antialiased flex justify-center selection:bg-green-500/20 selection:text-green-400">
-      {/* 2-Column Core Architecture */}
       <div className="w-full max-w-[1300px] grid grid-cols-[auto_1fr] px-2 sm:px-4">
         {/* Left Side: Clean Sidebar */}
-        <SideBar />
+        <SideBar user={user} />
 
         {/* Right Side: Scrollable App View Feed */}
         <main className="min-w-0 w-full pl-6 pr-2 py-6">

@@ -12,19 +12,30 @@ import {
   MessageSquare,
   Bookmark,
   ChevronRight,
+  UserRound,
+  Settings,
 } from "lucide-react";
 
-export default function SideBar() {
+export default function SideBar({ user }) {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Feed", href: "/", icon: Home },
     { name: "Tools", href: "/category/tool", icon: Wrench },
     { name: "Articles", href: "/category/article", icon: FileText },
     { name: "Tutorials", href: "/category/tutorial", icon: GraduationCap },
     { name: "Jobs", href: "/category/job", icon: Briefcase },
+  ];
+
+  const mainItems = [
+    { name: "Feed", href: "/", icon: Home },
+    {
+      name: "Profile",
+      href: user ? `/profile/${user.username}` : "/login",
+      icon: UserRound,
+    },
     { name: "Discussions", href: "/category/discussions", icon: MessageSquare },
     { name: "Bookmarks", href: "/bookmarks", icon: Bookmark },
+    { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   return (
@@ -40,6 +51,39 @@ export default function SideBar() {
         </div>
 
         <nav className="flex flex-col gap-y-1 w-full">
+          {mainItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`flex items-center gap-x-4 px-4 py-3 rounded-xl transition-all duration-150 group w-full text-[15px] font-medium relative
+                  ${
+                    isActive
+                      ? "bg-green-950/20 text-green-400 font-semibold"
+                      : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-900/40"
+                  }`}
+              >
+                {isActive && (
+                  <span className="absolute left-0 top-1/4 h-1/2 w-0.75 bg-green-500 rounded-r-md" />
+                )}
+
+                <item.icon
+                  className={`h-5 w-5 stroke-[1.8] transition-colors 
+                    ${isActive ? "text-green-400" : "text-neutral-500 group-hover:text-neutral-300"}`}
+                />
+                <span className="xl:block hidden">{item.name}</span>
+              </Link>
+            );
+          })}
+
+          <div className="pt-6 mt-6 border-t border-neutral-900">
+            <p className="xl:block hidden px-4 text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2 mt-4">
+              Category
+            </p>
+          </div>
+
           {navItems.map((item) => {
             const isActive = pathname === item.href;
 
