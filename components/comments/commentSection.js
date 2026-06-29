@@ -47,7 +47,7 @@ export default function CommentSection({
 
     clearTimeout(window.typingTimeout);
 
-    window.typingTimeoutv = setTimeout(() => {
+    window.typingTimeout = setTimeout(() => {
       setIsTyping(false);
       socket.emit("typing", { linkId, isTyping: false });
     }, 1000);

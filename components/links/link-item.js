@@ -40,7 +40,7 @@ export default function LinkItem({
 
         <div className="flex items-start flex-wrap gap-x-2">
           <Link
-            href={`/links/${id}`}
+            href={`/link/${id}`}
             className="text-lg font-bold text-green-400 leading-snug hover:text-green-300 transition-colors cursor-pointer"
           >
             &quot;{title}&quot;
@@ -58,7 +58,7 @@ export default function LinkItem({
         </div>
 
         {/* 3. DESCRIPTION CARD TARGET LINK */}
-        <Link href={`/links/${id}`} className="block cursor-pointer">
+        <Link href={`/link/${id}`} className="block cursor-pointer">
           <p className="text-sm text-neutral-400 leading-relaxed max-w-prose">
             {description.length > 160
               ? `${description.slice(0, 160)}...`
@@ -85,7 +85,7 @@ export default function LinkItem({
         {/* 5. METRIC COUPLING ACTIONS STRIP */}
         <div className="flex items-center gap-x-6 text-xs text-neutral-500 pt-3 border-t border-neutral-900/60">
           <Link
-            href={`/links/${id}`}
+            href={`/link/${id}`}
             className="flex items-center gap-x-1.5 hover:text-neutral-300 transition-colors cursor-pointer"
           >
             <MessageSquare className="w-4 h-4" />

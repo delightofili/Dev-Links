@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { ExternalLink, MessageSquare, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import UpvoteButton from "@/components/ui/upvote-button";
+import CommentSection from "@/components/comments/commentSection";
+import { cookies } from "next/headers";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -39,6 +41,8 @@ export const revalidate = 60;
 export default async function SingleLinkPage({ params }) {
   const { id } = await params;
   const user = await getCurrentUser();
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value || null;
 
   const link = await getCachedLink(id, user?.id);
 
@@ -130,7 +134,11 @@ export default async function SingleLinkPage({ params }) {
         </div>
 
         <div className="border border-dashed border-neutral-800/80 rounded-xl p-8 text-center text-sm text-neutral-600 font-mono">
-          [Comment input system layout placeholder container]
+          <CommentSection
+            linkId={link.id}
+            initialComments={link.comments || []}
+            accessToken={accessToken}
+          />
         </div>
       </section>
     </div>
