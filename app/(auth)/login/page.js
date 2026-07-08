@@ -6,13 +6,46 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 import { login } from "@/app/action";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useAuth } from "@/lib/context/auth-context";
+import { useRouter } from "next/router";
 
 export const dynamic = "force-static";
 
 export default function LoginPage() {
-  const [state, formAction, isPending] = useActionState(login, null);
-
+  const { login } = useAuth();
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    // e.preventDefault() stops the browser's default form submission
+    // which would reload the page
+
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    // FormData reads all input values from the form element
+
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    try {
+      await login(email, password);
+      // calls our auth context login function
+      // which calls the backend, stores token, sets user
+
+      router.push("/home");
+      // navigate to home after successful login
+    } catch (err) {
+      setError(err.message);
+      // show the error message from the API
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function toogleShowPassword(e) {
     e.preventDefault();
@@ -68,7 +101,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form action={formAction} className="flex flex-col gap-3.5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
           {/* EMAIL INPUT WITH ICON */}
           <div className="flex items-center gap-3 bg-neutral-800 px-3 py-2.5 rounded-lg border border-neutral-700/80 focus-within:border-green-500 transition-colors">
             <FiMail className="text-neutral-500 text-lg flex-shrink-0" />

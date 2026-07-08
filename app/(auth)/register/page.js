@@ -6,12 +6,38 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 import { register } from "@/app/action";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useAuth } from "@/lib/context/auth-context";
+import { useRouter } from "next/router";
 
 export const dynamic = "force-static";
 
 export default function RegisterPage() {
-  const [state, formAction, isPending] = useActionState(register, null);
+  const { register } = useAuth();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const username = formData.get("username");
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    try {
+      await register(name, username, email, password);
+      router.push("/home");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function toogleShowPassword(e) {
     e.preventDefault();
@@ -65,7 +91,7 @@ export default function RegisterPage() {
           Register to DevLinks
         </h1>
 
-        <form action={formAction} className="flex flex-col gap-3.5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
           {/* NAME INPUT */}
           <div className="flex items-center gap-3 bg-neutral-800 px-3 py-2.5 rounded-lg border border-neutral-700/80 focus-within:border-green-500 transition-colors">
             <FiUser className="text-neutral-500 text-lg flex-shrink-0" />
